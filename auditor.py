@@ -37,3 +37,7 @@ while True:
 print(f"Inventory: {inventory}")
 print(f"Failed entries: {failed_entries}")
 
+#Reporting 
+print("\n--- Inventory Report ---")
+print(f"Total Units Processed: {inventory}")
+print(f"Number of Failed/Rejected Entries: {failed_entries}") 
