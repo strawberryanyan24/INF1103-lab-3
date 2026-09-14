@@ -10,26 +10,30 @@ while True:
     if user_input.lower() == "quit":
         break
 
+
     # Check if the input is a valid integer
     if not user_input.isdigit():
         print("Error: Please enter a valid positive whole number.")
         failed_entries += 1
         continue
 
-    inventory += int(user_input)
+     # Convert the valid input into an integer
+    stock_quantity = int(user_input)
 
-print(f"Final inventory: {inventory}")
+    # Reject negative numbers for stock quantities (kept in case input method changes later)
+    if stock_quantity < 0:
+        print("Error: Stock quantity cannot be negative.")
+        failed_entries += 1
+        continue  # skip adding this invalid entry to inventory
+
+    # Add the valid stock quantity to the inventory
+    inventory += stock_quantity
+    print(f"Stock accepted. Current inventory: {inventory}")
+
+    # Trigger overstock alert if inventory exceeds the threshold
+    if inventory > 1000:
+        print("Alert: Inventory exceeds the maximum threshold of 1000 units. Please review stock levels.")
+
+print(f"Inventory: {inventory}")
 print(f"Failed entries: {failed_entries}")
 
-# Convert the input into an integer
-stock_quantity = int(user_input)
-
-# Reject negative numbers for stock quantities
-if stock_quantity < 0:
-    print("Error: Stock quantity cannot be negative.")
-    failed_entries += 1 
-
-# Add the valid stock quantity to the inventory
-inventory += stock_quantity
-
-print(f"Stock accepted. Current inventory: {inventory}") 
