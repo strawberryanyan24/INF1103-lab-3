@@ -20,3 +20,16 @@ while True:
 
 print(f"Final inventory: {inventory}")
 print(f"Failed entries: {failed_entries}")
+
+# Convert the input into an integer
+stock_quantity = int(user_input)
+
+# Reject negative numbers for stock quantities
+if stock_quantity < 0:
+    print("Error: Stock quantity cannot be negative.")
+    failed_entries += 1 
+
+# Add the valid stock quantity to the inventory
+inventory += stock_quantity
+
+print(f"Stock accepted. Current inventory: {inventory}") 
