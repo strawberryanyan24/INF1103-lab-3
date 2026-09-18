@@ -41,3 +41,23 @@ print(f"Failed entries: {failed_entries}")
 print("\n--- Inventory Report ---")
 print(f"Total Units Processed: {inventory}")
 print(f"Number of Failed/Rejected Entries: {failed_entries}") 
+
+# ---- Global counter for failed/rejected entries ----
+failed_entries = 0
+
+def get_valid_input():
+    global failed_entries
+
+    while True:
+        user_input = input("Enter stock quantity (or type 'quit' to finish): ")
+        # Check if the user wants to stop
+        if user_input.lower() == "quit":
+            return "quit"
+
+        # Validate the input is a whole number
+        if not user_input.isdigit():
+            print("Error: Please enter a valid positive whole number.")
+            failed_entries += 1
+            continue  # ask again
+
+        return int(user_input)
