@@ -1,63 +1,62 @@
-# Initialize inventory and failed entries
-inventory = 0
-failed_entries = 0
-
-# Continuously ask the user for stock quantities
-while True:
-    user_input = input("Enter stock quantity (or type 'quit' to finish): ")
-
-    # Check if the user wants to quit
-    if user_input.lower() == "quit":
-        break
-
-
-    # Check if the input is a valid integer
-    if not user_input.isdigit():
-        print("Error: Please enter a valid positive whole number.")
-        failed_entries += 1
-        continue
-
-     # Convert the valid input into an integer
-    stock_quantity = int(user_input)
-
-    # Reject negative numbers for stock quantities (kept in case input method changes later)
-    if stock_quantity < 0:
-        print("Error: Stock quantity cannot be negative.")
-        failed_entries += 1
-        continue  # skip adding this invalid entry to inventory
-
-    # Add the valid stock quantity to the inventory
-    inventory += stock_quantity
-    print(f"Stock accepted. Current inventory: {inventory}")
-
-    # Trigger overstock alert if inventory exceeds the threshold
-    if inventory > 1000:
-        print("Alert: Inventory exceeds the maximum threshold of 1000 units. Please review stock levels.")
-
-print(f"Inventory: {inventory}")
-print(f"Failed entries: {failed_entries}")
-
-#Reporting 
-print("\n--- Inventory Report ---")
-print(f"Total Units Processed: {inventory}")
-print(f"Number of Failed/Rejected Entries: {failed_entries}") 
-
 # ---- Global counter for failed/rejected entries ----
 failed_entries = 0
-
+ 
+ 
 def get_valid_input():
+    """Prompts and validates input. Returns a valid int, or 'quit'."""
     global failed_entries
-
+ 
     while True:
         user_input = input("Enter stock quantity (or type 'quit' to finish): ")
+ 
         # Check if the user wants to stop
         if user_input.lower() == "quit":
             return "quit"
-
+ 
         # Validate the input is a whole number
         if not user_input.isdigit():
             print("Error: Please enter a valid positive whole number.")
             failed_entries += 1
             continue  # ask again
-
+ 
         return int(user_input)
+ 
+ 
+def process_delivery(current_total, new_value):
+    """Adds new_value to current_total. Returns the updated total."""
+    return current_total + new_value
+ 
+ 
+def calculate_tax(amount):
+    """Calculates 10% tax on a single delivery amount."""
+    return amount * 0.10
+ 
+ 
+def generate_report(total_units, deliveries_processed, failed_attempts):
+    """Prints the final summary report."""
+    print("\n--- Delivery Report ---")
+    print(f"Total Units in Inventory: {total_units}")
+    print(f"Total Deliveries Processed: {deliveries_processed}")
+    print(f"Number of Failed/Rejected Entries: {failed_attempts}")
+ 
+ 
+# ---- Main program ----
+inventory = 0
+deliveries_processed = 0
+ 
+while True:
+    result = get_valid_input()
+ 
+    if result == "quit":
+        break
+ 
+    inventory = process_delivery(inventory, result)
+    tax = calculate_tax(result)
+    deliveries_processed += 1
+ 
+    print(f"Stock accepted. Current inventory: {inventory} | Tax: {tax:.2f}")
+ 
+    if inventory > 1000:
+        print("Alert: Inventory exceeds the maximum threshold of 1000 units. Please review stock levels.")
+ 
+generate_report(inventory, deliveries_processed, failed_entries)
